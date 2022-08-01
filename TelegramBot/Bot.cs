@@ -4,16 +4,23 @@ using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Exceptions;
+using TelegramBot.Controllers;
 
 namespace TelegramBot
 {
     class Bot : BackgroundService
     {
         private ITelegramBotClient _botClient;
+        private InlineKeyboardController _inlineKeyboardController;
+        private TextMessageController _textMessageController;
+        private DefaultMessageController _defaultMessageController;
 
-        public Bot(ITelegramBotClient botClient)
+        public Bot(ITelegramBotClient botClient, InlineKeyboardController inlineKeyboardController, TextMessageController textMessageController, DefaultMessageController defaultMessageController)
         {
             _botClient = botClient;
+            _inlineKeyboardController = inlineKeyboardController;
+            _textMessageController = textMessageController;
+            _defaultMessageController = defaultMessageController;
         }
 
         protected override async Task ExecuteAsync(CancellationToken token)
@@ -27,14 +34,21 @@ namespace TelegramBot
         {
             if(update.Type == UpdateType.CallbackQuery)
             {
-                await _botClient.SendTextMessageAsync(update.CallbackQuery!.From.Id, $"Нажата кнопка", cancellationToken: token);
+                await _inlineKeyboardController.Handler(update.CallbackQuery, token);
                 return;
             }
 
             if(update.Type == UpdateType.Message)
             {
-                await _botClient.SendTextMessageAsync(update.Message!.Chat.Id, $"Получено сообщение", cancellationToken: token);
-                return;
+                switch(update.Message!.Type)
+                {
+                    case MessageType.Text:
+                        await _textMessageController.Handler(update.Message, token);
+                        return;
+                    default:
+                        await _defaultMessageController.Handler(update.Message, token);
+                        return;
+                }               
             }
         }
 
