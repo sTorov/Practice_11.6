@@ -14,7 +14,8 @@ namespace TelegramBot.Controllers
 
         public async Task Handler(Message message, CancellationToken token)
         {
-
+            await _botClient.SendTextMessageAsync(message.Chat.Id, $"Получено сообщение неподдерживаемого формата.", cancellationToken: token);
+            return;
         }
     }
 }
