@@ -26,21 +26,21 @@ namespace TelegramBot.Controllers
 
             string str = callbackQuery.Data switch
             {
-                "sum" => $"Подсчёт суммы чисел",
-                "str_length" => $"Подсчёт количества введённых символов",
+                "sum" => $"Сложение чисел",
+                "str_length" => $"Подсчёт количества символов",
                 _ => string.Empty
             };
 
             string text = callbackQuery.Data switch
             {
-                "sum" => $"Введите 2 или более числа через пробел.",
-                "str_length" => $"Ведите текст для подсчёта символов.",
+                "sum" => $"2 или более числа через пробел.",
+                "str_length" => $"текст для подсчёта символов.",
                 _ => string.Empty
             };
 
             await _botClient.SendTextMessageAsync(
                 callbackQuery.From.Id, 
-                $"Выбранная функция - <b>{str}</b>\n" +  $"\n{text}\n", 
+                $"Выбранное действие: <b>{str}</b>\n" +  $"\nВведите {text}\n", 
                 cancellationToken: token,
                 parseMode: ParseMode.Html
                 );

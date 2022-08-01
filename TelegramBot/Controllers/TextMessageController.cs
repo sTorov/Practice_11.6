@@ -34,24 +34,28 @@ namespace TelegramBot.Controllers
                     await _botClient.SendTextMessageAsync(
                         message.Chat.Id,
                         $"<b> Этот бот может посчитать количество символов в строке, либо сумму введённых вами чисел.</b>\n" +
-                        $"\nНажмите одну из кнопок для выбора необходимой манипуляции.\n",
+                        $"\nНажмите одну из кнопок для того чтобы узнать:\n",
                         cancellationToken: token,
                         parseMode: ParseMode.Html,
                         replyMarkup: new InlineKeyboardMarkup(buttons)
-                        );
+                        );                    
+                    return;
 
-                    if(func != String.Empty)
+                case "/func":
+                    if(func == string.Empty)
                     {
-                        switch (func)
-                        {
-                            case "sum":
-                                await _botClient.SendTextMessageAsync(message.Chat.Id, $"Сейчас выбрана функция:\n" + $"\n<b>Подсчёт суммы чисел</b>", cancellationToken: token, parseMode: ParseMode.Html).ConfigureAwait(false);
-                                break;
-                            case "str_length":
-                                await _botClient.SendTextMessageAsync(message.Chat.Id, $"Сейчас выбрана функция:\n" + $"\n<b>Подсчёт количества символов</b>", cancellationToken: token, parseMode: ParseMode.Html).ConfigureAwait(false);
-                                break;
-                        }
+                        await _botClient.SendTextMessageAsync(message.Chat.Id, $"<b>Вы ещё не выбрирали действие.</b>\n" + $"\nВыбрать действие можно в главном меню, нажав соответствующую кнопку.\n" + $"\n/start - Главное меню", cancellationToken: token, parseMode: ParseMode.Html);
+                        return;
                     }
+                    
+                    string str = func switch
+                    {
+                        "sum" => "Сложение чисел",
+                        "str_length" => "Количество символов",
+                        _ => string.Empty,
+                    };
+
+                    await _botClient.SendTextMessageAsync(message.Chat.Id, $"Выбраное действие:\n<b>{str}.</b>", cancellationToken: token, parseMode: ParseMode.Html);
                     return;
 
                 default:
