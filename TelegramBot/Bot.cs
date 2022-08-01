@@ -42,7 +42,7 @@ namespace TelegramBot
         {
             var error = exception switch
             {
-                ApiRequestException apiRequestException => $"Telegram API error\n{apiRequestException.ErrorCode}\n{apiRequestException.Message}"
+                ApiRequestException apiRequestException => $"Telegram API error\n{apiRequestException.ErrorCode}\n{apiRequestException.Message}",
                 _ => $"Unknown error\n{exception.GetType().Name}\n{exception.Message}"
             };
 
