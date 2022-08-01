@@ -17,7 +17,7 @@ namespace TelegramBot.Services
             if (_sessions.ContainsKey(charId))
                 return _sessions[charId];
 
-            var newSession = new Session { Function = "str_length" };
+            var newSession = new Session { Function = string.Empty };
             _sessions.TryAdd(charId, newSession);
             return newSession;
         }

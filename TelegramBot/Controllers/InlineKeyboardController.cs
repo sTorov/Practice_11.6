@@ -1,5 +1,6 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using TelegramBot.Services;
 
 
@@ -21,9 +22,28 @@ namespace TelegramBot.Controllers
             if(callbackQuery?.Data == null)
                 return;
 
-            string func = _memoryStorage.GetSession(callbackQuery.From.Id).Function;
+            _memoryStorage.GetSession(callbackQuery.From.Id).Function = callbackQuery.Data;
 
-            await _botClient.SendTextMessageAsync(callbackQuery.From.Id, func, cancellationToken: token);
+            string str = callbackQuery.Data switch
+            {
+                "sum" => $"Подсчёт суммы чисел",
+                "str_length" => $"Подсчёт количества введённых символов",
+                _ => string.Empty
+            };
+
+            string text = callbackQuery.Data switch
+            {
+                "sum" => $"Введите 2 или более числа через пробел.",
+                "str_length" => $"Ведите текст для подсчёта символов.",
+                _ => string.Empty
+            };
+
+            await _botClient.SendTextMessageAsync(
+                callbackQuery.From.Id, 
+                $"Выбранная функция - <b>{str}</b>\n" +  $"\n{text}\n", 
+                cancellationToken: token,
+                parseMode: ParseMode.Html
+                );
             return;
         }
     }
