@@ -29,7 +29,7 @@ namespace TelegramBot.Controllers
                     await _botClient.SendTextMessageAsync(
                         message.Chat.Id,
                         $"<b> Этот бот может посчитать количество символов в строке, либо сумму введённых вами чисел.</b>\n" +
-                        $"\nНажмите одну из кнопок для выбора необходимой манипуляции\n",
+                        $"\nНажмите одну из кнопок для выбора необходимой манипуляции.\n",
                         cancellationToken: token,
                         parseMode: ParseMode.Html,
                         replyMarkup: new InlineKeyboardMarkup(buttons)

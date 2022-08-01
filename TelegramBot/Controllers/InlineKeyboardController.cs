@@ -15,7 +15,11 @@ namespace TelegramBot.Controllers
 
         public async Task Handler(CallbackQuery? callbackQuery, CancellationToken token)
         {
+            if(callbackQuery?.Data == null)
+                return;
 
+            await _botClient.SendTextMessageAsync(callbackQuery.From.Id, "Нажата кнопка", cancellationToken: token);
+            return;
         }
     }
 }
