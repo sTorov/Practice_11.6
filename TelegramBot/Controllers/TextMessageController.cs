@@ -21,7 +21,7 @@ namespace TelegramBot.Controllers
 
         public async Task Handler(Message message, CancellationToken token)
         {
-            string func = _memoryStorage.GetSession(message.Chat.Id).Function;
+            string func = _memoryStorage.GetSession(message.Chat.Id).Function!;
             
             switch (message.Text)
             {
