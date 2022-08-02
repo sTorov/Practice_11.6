@@ -10,11 +10,13 @@ namespace TelegramBot.Controllers
     {
         private readonly ITelegramBotClient _botClient;
         private readonly IStorage _memoryStorage;
+        private readonly IAction _numberAction;
 
-        public TextMessageController(ITelegramBotClient botClient, IStorage memoryStorage)
+        public TextMessageController(ITelegramBotClient botClient, IStorage memoryStorage, IAction numberAction)
         {
             _botClient = botClient;
             _memoryStorage = memoryStorage;
+            _numberAction = numberAction;
         }
 
         public async Task Handler(Message message, CancellationToken token)
@@ -41,34 +43,17 @@ namespace TelegramBot.Controllers
                         );                    
                     return;
 
-                case "/func":
-                    if(func == string.Empty)
-                    {
-                        await _botClient.SendTextMessageAsync(message.Chat.Id, $"<b>Вы ещё не выбрирали действие.</b>\n" + $"\nВыбрать действие можно в главном меню, нажав соответствующую кнопку.\n" + $"\n/start - Главное меню", cancellationToken: token, parseMode: ParseMode.Html);
-                        return;
-                    }
-                    
-                    string str = func switch
-                    {
-                        "sum" => "Сложение чисел",
-                        "str_length" => "Количество символов",
-                        _ => string.Empty,
-                    };
-
-                    await _botClient.SendTextMessageAsync(message.Chat.Id, $"Выбраное действие:\n<b>{str}.</b>", cancellationToken: token, parseMode: ParseMode.Html);
-                    return;
-
                 default:
                     switch (func)
                     {
-                        case "sum":
-                            await _botClient.SendTextMessageAsync(message.Chat.Id, $"Сумма.", cancellationToken: token);
+                        case "sum":                            
+                            await _botClient.SendTextMessageAsync(message.Chat.Id, _numberAction.Sum(message.Text!), cancellationToken: token, parseMode: ParseMode.Html);
                             break;
                         case "str_length":
-                            await _botClient.SendTextMessageAsync(message.Chat.Id, $"Символы.", cancellationToken: token);
+                            await _botClient.SendTextMessageAsync(message.Chat.Id, $"<b>Количество символов: </b>{message.Text!.Length}", cancellationToken: token, parseMode: ParseMode.Html);
                             break;
                         default:
-                            await _botClient.SendTextMessageAsync(message.Chat.Id, $"Выберите функцию в главном меню.", cancellationToken: token);
+                            await _botClient.SendTextMessageAsync(message.Chat.Id, $"<b>Ошибка!</b>\nВыберите действие в главном меню.\n\n/start - Главное меню", cancellationToken: token, parseMode: ParseMode.Html);
                             break;
                     }
                     return;

@@ -23,6 +23,7 @@ namespace TelegramBot
             services.AddTransient<TextMessageController>();
             services.AddTransient<InlineKeyboardController>();
             services.AddTransient<DefaultMessageController>();
+            services.AddTransient<IAction, NumberAction>();
 
             services.AddSingleton<ITelegramBotClient>(provider => new TelegramBotClient("5540655924:AAEyPVVUCv57Zm377Y6-mKzd0nTKvcCZORA"));
             services.AddSingleton<IStorage, MemoryStorage>();
