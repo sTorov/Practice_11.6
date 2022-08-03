@@ -7,15 +7,25 @@ namespace TelegramBot.Services
     class Calculation : IAction
     {           
         /// <summary>
+        /// Список чисел
+        /// </summary>
+        private List<double>? _listNumbers;
+
+        public Calculation()
+        {
+            _listNumbers = new List<double>();
+        }
+        
+        /// <summary>
         /// Получение списка чисел из сообщения
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        private List<double> GetNumbers(string value)
+        private void GetNumbers(string value)
         {
+            _listNumbers!.Clear();
             string newValue = value.RemoveUnnecessary();
 
-            List<double> list = new();
             StringBuilder sb = new();
                         
             for (int i = 0; i < newValue.Length; i++)
@@ -28,17 +38,21 @@ namespace TelegramBot.Services
                     if (double.TryParse(sb.ToString(), out double result))
                     {
                         if (Regex.IsMatch(sb.ToString(), @"\w*,+$"))
-                            return null!;
+                        {
+                            _listNumbers.Clear();
+                            return;
+                        }
 
-                        list.Add(result);
+                        _listNumbers.Add(result);
                         sb.Clear();
                     }
                     else
-                        return null!;
+                    {
+                        _listNumbers.Clear();
+                        return;
+                    }
                 }
             }
-
-            return list;
         }
 
         /// <summary>
@@ -50,14 +64,14 @@ namespace TelegramBot.Services
         {
             double sum = 0;
 
-            var list = GetNumbers(value);
+            GetNumbers(value);
             
-            if (list == null)
+            if (_listNumbers!.Count == 0)
                 return "<b>Ошибка!</b>\nВведите числа через пробел!";
-            if (list.Count == 1)
+            if (_listNumbers!.Count == 1)
                 return "<b>Ошибка!</b>\nВведите 2 или более значений!";
 
-            foreach (double number in list)
+            foreach (double number in _listNumbers)
                 sum += number;
 
             return "<b>Сумма чисел: </b>" + Math.Round(sum, 6, MidpointRounding.AwayFromZero).ToString();
