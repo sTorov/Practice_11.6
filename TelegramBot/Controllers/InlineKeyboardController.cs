@@ -32,7 +32,7 @@ namespace TelegramBot.Controllers
 
             _memoryStorage.GetSession(callbackQuery.From.Id).Function = callbackQuery.Data;
 
-            string str = callbackQuery.Data switch
+            string function = callbackQuery.Data switch
             {
                 "sum" => $"Сложение чисел",
                 "str_length" => $"Подсчёт количества символов",
@@ -48,7 +48,7 @@ namespace TelegramBot.Controllers
 
             await _botClient.SendTextMessageAsync(
                 callbackQuery.From.Id, 
-                $"Выбранное действие: <b>{str}</b>\n" +  $"\nВведите {text}\n", 
+                $"Выбранное действие: <b>{function}</b>\n" +  $"\nВведите {text}\n", 
                 cancellationToken: token,
                 parseMode: ParseMode.Html
                 );

@@ -4,7 +4,7 @@ using TelegramBot.Extensions;
 
 namespace TelegramBot.Services
 {
-    class Calculation : IAction
+    class Calculation : ICalculation
     {           
         /// <summary>
         /// Список чисел
@@ -55,12 +55,7 @@ namespace TelegramBot.Services
             }
         }
 
-        /// <summary>
-        /// Сложение чисел, полученных из сообщения
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public string Action(string value)
+        public string Sum(string value)
         {
             double sum = 0;
 

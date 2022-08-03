@@ -13,13 +13,13 @@ namespace TelegramBot.Controllers
     {
         private readonly ITelegramBotClient _botClient;
         private readonly IStorage _memoryStorage;
-        private readonly IAction _numberAction;
+        private readonly ICalculation _calculation;
 
-        public TextMessageController(ITelegramBotClient botClient, IStorage memoryStorage, IAction numberAction)
+        public TextMessageController(ITelegramBotClient botClient, IStorage memoryStorage, ICalculation calculation)
         {
             _botClient = botClient;
             _memoryStorage = memoryStorage;
-            _numberAction = numberAction;
+            _calculation = calculation;
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace TelegramBot.Controllers
                     switch (func)
                     {
                         case "sum":                            
-                            await _botClient.SendTextMessageAsync(message.Chat.Id, _numberAction.Action(message.Text!), cancellationToken: token, parseMode: ParseMode.Html);
+                            await _botClient.SendTextMessageAsync(message.Chat.Id, _calculation.Sum(message.Text!), cancellationToken: token, parseMode: ParseMode.Html);
                             break;
                         case "str_length":
                             await _botClient.SendTextMessageAsync(message.Chat.Id, $"<b>Количество символов: </b>{message.Text!.Length}", cancellationToken: token, parseMode: ParseMode.Html);
