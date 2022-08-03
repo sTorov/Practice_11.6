@@ -4,7 +4,7 @@ using TelegramBot.Extensions;
 
 namespace TelegramBot.Services
 {
-    class NumberAction : IAction
+    class Calculation : IAction
     {           
         private List<double> AddNumber(string value)
         {
@@ -36,7 +36,7 @@ namespace TelegramBot.Services
             return list;
         }
 
-        public string Sum(string value)
+        public string Action(string value)
         {
             double sum = 0;
 

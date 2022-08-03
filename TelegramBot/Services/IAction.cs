@@ -2,6 +2,6 @@
 {
     interface IAction
     {
-        string Sum(string value);
+        string Action(string value);
     }
 }

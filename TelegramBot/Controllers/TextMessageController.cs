@@ -47,7 +47,7 @@ namespace TelegramBot.Controllers
                     switch (func)
                     {
                         case "sum":                            
-                            await _botClient.SendTextMessageAsync(message.Chat.Id, _numberAction.Sum(message.Text!), cancellationToken: token, parseMode: ParseMode.Html);
+                            await _botClient.SendTextMessageAsync(message.Chat.Id, _numberAction.Action(message.Text!), cancellationToken: token, parseMode: ParseMode.Html);
                             break;
                         case "str_length":
                             await _botClient.SendTextMessageAsync(message.Chat.Id, $"<b>Количество символов: </b>{message.Text!.Length}", cancellationToken: token, parseMode: ParseMode.Html);
