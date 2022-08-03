@@ -8,6 +8,9 @@ using TelegramBot.Controllers;
 
 namespace TelegramBot
 {
+    /// <summary>
+    /// Основной класс Telegram бота
+    /// </summary>
     class Bot : BackgroundService
     {
         private ITelegramBotClient _botClient;
@@ -30,6 +33,13 @@ namespace TelegramBot
             Console.WriteLine("Бот запущен");
         }
 
+        /// <summary>
+        /// Обработчик входящих обновлений
+        /// </summary>
+        /// <param name="botClient"></param>
+        /// <param name="update"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         async Task HandlerUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken token)
         {
             if(update.Type == UpdateType.CallbackQuery)
@@ -51,7 +61,14 @@ namespace TelegramBot
                 }               
             }
         }
-
+        
+        /// <summary>
+        /// Обработчик ошибок
+        /// </summary>
+        /// <param name="botClient"></param>
+        /// <param name="exception"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         Task HandlerErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken token)
         {
             var error = exception switch
