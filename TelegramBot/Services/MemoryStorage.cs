@@ -3,8 +3,14 @@ using System.Collections.Concurrent;
 
 namespace TelegramBot.Services
 {
+    /// <summary>
+    /// Программное хранилище сессий
+    /// </summary>
     class MemoryStorage : IStorage
     {
+        /// <summary>
+        /// Хранилище сессий
+        /// </summary>
         private readonly ConcurrentDictionary<long, Session> _sessions;
 
         public MemoryStorage()

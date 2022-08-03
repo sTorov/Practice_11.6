@@ -6,7 +6,12 @@ namespace TelegramBot.Services
 {
     class Calculation : IAction
     {           
-        private List<double> AddNumber(string value)
+        /// <summary>
+        /// Получение списка чисел из сообщения
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private List<double> GetNumbers(string value)
         {
             string newValue = value.RemoveUnnecessary();
 
@@ -36,11 +41,16 @@ namespace TelegramBot.Services
             return list;
         }
 
+        /// <summary>
+        /// Сложение чисел, полученных из сообщения
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public string Action(string value)
         {
             double sum = 0;
 
-            var list = AddNumber(value);
+            var list = GetNumbers(value);
             
             if (list == null)
                 return "<b>Ошибка!</b>\nВведите числа через пробел!";
