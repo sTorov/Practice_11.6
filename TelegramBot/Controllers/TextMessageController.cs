@@ -6,6 +6,9 @@ using TelegramBot.Services;
 
 namespace TelegramBot.Controllers
 {
+    /// <summary>
+    /// Контроллер текстовых сообщений
+    /// </summary>
     class TextMessageController
     {
         private readonly ITelegramBotClient _botClient;
@@ -19,6 +22,12 @@ namespace TelegramBot.Controllers
             _numberAction = numberAction;
         }
 
+        /// <summary>
+        /// Обработчик текстовых сообщений
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public async Task Handler(Message message, CancellationToken token)
         {
             string func = _memoryStorage.GetSession(message.Chat.Id).Function!;

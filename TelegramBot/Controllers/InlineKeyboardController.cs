@@ -3,10 +3,12 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using TelegramBot.Services;
 
-
 namespace TelegramBot.Controllers
 {
-    internal class InlineKeyboardController
+    /// <summary>
+    /// Контроллер нажатия на кнопки
+    /// </summary>
+    class InlineKeyboardController
     {
         private readonly ITelegramBotClient _botClient;
         private readonly IStorage _memoryStorage;
@@ -17,6 +19,12 @@ namespace TelegramBot.Controllers
             _memoryStorage = memoryStorage;
         }
 
+        /// <summary>
+        /// Обработчик нажатия на кнопки
+        /// </summary>
+        /// <param name="callbackQuery"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public async Task Handler(CallbackQuery? callbackQuery, CancellationToken token)
         {
             if(callbackQuery?.Data == null)
