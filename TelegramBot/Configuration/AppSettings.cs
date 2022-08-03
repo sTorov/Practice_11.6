@@ -1,7 +1,7 @@
 ﻿namespace TelegramBot.Configuration
 {
     /// <summary>
-    /// Основные настройки
+    /// Основные конфигурации бота
     /// </summary>
     class AppSettings
     {
